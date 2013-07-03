@@ -7,4 +7,8 @@ def register():
     Pool.register(
         Simulation,
         Problem,
+	LaunchFrePPLeStart,
         module='frepple', type_='model')
+    Pool.register(
+	LaunchFrePPLe,
+        module='frepple', type_='wizard')

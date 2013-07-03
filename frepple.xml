@@ -121,10 +121,21 @@
             <field name="action" ref="act_problem_form"/>
         </record>
 
+        <record model="ir.ui.view" id="launch_frepple_start_view_form">
+            <field name="model">frepple.launch_frepple.start</field>
+            <field name="type">form</field>
+            <field name="name">launch_frepple_start_form</field>
+        </record>
+        <record model="ir.action.wizard" id="wizard_launch_frepple">
+            <field name="name">Launch Frepple</field>
+            <field name="wiz_name">frepple.launch_frepple</field>
+        </record>
 
         <!-- Menus -->
         <menuitem id="menu_frepple" name="Frepple" sequence="1" />
         <menuitem action="act_frepple_problem" id="menu_frepple_problem" parent="menu_frepple" sequence="1" name="frePPLe Problems"/>
         <menuitem action="act_frepple_simulation" id="menu_frepple_simulation" parent="menu_frepple" sequence="1" name="frePPLe Simulations"/>
+        <menuitem parent="menu_frepple" action="wizard_launch_frepple"
+            id="menu_launch_frepple"/>
     </data>
 </tryton>

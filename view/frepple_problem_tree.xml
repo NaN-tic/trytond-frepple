@@ -1,0 +1,9 @@
+<tree string="FrePPLe Problem">
+    <field name="simulation"/>
+    <field name="name"/>
+    <field name="entity"/>
+    <field name="description"/>
+    <field name="start"/>
+    <field name="end"/>
+    <field name="weight"/>
+</tree>

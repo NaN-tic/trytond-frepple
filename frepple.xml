@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tryton>
+    <data>
+
+        <record model="res.group" id="group_frepple_admin">
+            <field name="name">Frepple Administration</field>
+        </record>
+        <record model="res.user-res.group" id="user_admin_group_frepple_admin">
+            <field name="user" ref="res.user_admin"/>
+            <field name="group" ref="group_frepple_admin"/>
+        </record>
+        <record model="res.user-res.group" id="user_trigger_group_frepple_admin">
+            <field name="user" ref="res.user_trigger"/>
+            <field name="group" ref="group_frepple_admin"/>
+        </record>
+        <record model="res.group" id="group_frepple">
+            <field name="name">Frepple</field>
+        </record>
+        <record model="res.user-res.group" id="user_admin_group_frepple">
+            <field name="user" ref="res.user_admin"/>
+            <field name="group" ref="group_frepple"/>
+        </record>
+        <record model="res.user-res.group" id="user_trigger_group_frepple">
+            <field name="user" ref="res.user_trigger"/>
+            <field name="group" ref="group_frepple"/>
+        </record>
+        <record model="ir.ui.view" id="frepple_problem_form_view">
+            <field name="model">frepple.problem</field>
+            <field name="type">form</field>
+            <field name="name">frepple_problem_form</field>
+        </record>
+        <record model="ir.ui.view" id="frepple_problem_tree_view">
+            <field name="model">frepple.problem</field>
+            <field name="type">tree</field>
+            <field name="name">frepple_problem_tree</field>
+        </record>
+        <record model="ir.action.act_window" id="act_frepple_problem">
+            <field name="name">frePPLe Problem</field>
+            <field name="res_model">frepple.problem</field>
+            <field name="search_value"></field>
+            <!-- <field name="domain">[]</field> -->
+            <!-- <field name="context">{}</field> -->
+        </record>
+        <record model="ir.action.act_window.view" id="act_frepple_problem_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="frepple_problem_tree_view"/>
+            <field name="act_window" ref="act_frepple_problem"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_frepple_problem_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="frepple_problem_form_view"/>
+            <field name="act_window" ref="act_frepple_problem"/>
+        </record>
+        <record model="ir.model.access" id="access_frepple_problem">
+            <field name="model" search="[('model', '=', 'frepple.problem')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <record model="ir.model.access" id="access_frepple_problem_admin">
+            <field name="model" search="[('model', '=', 'frepple.problem')]"/>
+            <field name="group" ref="group_frepple_admin"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.ui.view" id="frepple_simulation_form_view">
+            <field name="model">frepple.simulation</field>
+            <field name="type">form</field>
+            <field name="name">frepple_simulation_form</field>
+        </record>
+        <record model="ir.ui.view" id="frepple_simulation_tree_view">
+            <field name="model">frepple.simulation</field>
+            <field name="type">tree</field>
+            <field name="name">frepple_simulation_tree</field>
+        </record>
+        <record model="ir.action.act_window" id="act_frepple_simulation">
+            <field name="name">frePPLe Simulation</field>
+            <field name="res_model">frepple.simulation</field>
+            <field name="search_value"></field>
+            <!-- <field name="domain">[]</field> -->
+            <!-- <field name="context">{}</field> -->
+        </record>
+        <record model="ir.action.act_window.view" id="act_frepple_simulation_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="frepple_simulation_tree_view"/>
+            <field name="act_window" ref="act_frepple_simulation"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_frepple_simulation_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="frepple_simulation_form_view"/>
+            <field name="act_window" ref="act_frepple_simulation"/>
+        </record>
+        <record model="ir.model.access" id="access_frepple_simulation">
+            <field name="model" search="[('model', '=', 'frepple.simulation')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <record model="ir.model.access" id="access_frepple_simulation_admin">
+            <field name="model" search="[('model', '=', 'frepple.simulation')]"/>
+            <field name="group" ref="group_frepple_admin"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+
+        <record model="ir.action.act_window" id="act_problem_form">
+            <field name="name">Problems</field>
+            <field name="res_model">frepple.problem</field>
+            <field name="domain">[('simulation', '=', Eval('active_id'))]</field>
+        </record>
+        <record model="ir.action.keyword"
+            id="act_open_shipment_keyword1">
+            <field name="keyword">form_relate</field>
+            <field name="model">frepple.simulation,-1</field>
+            <field name="action" ref="act_problem_form"/>
+        </record>
+
+
+        <!-- Menus -->
+        <menuitem id="menu_frepple" name="Frepple" sequence="1" />
+        <menuitem action="act_frepple_problem" id="menu_frepple_problem" parent="menu_frepple" sequence="1" name="frePPLe Problems"/>
+        <menuitem action="act_frepple_simulation" id="menu_frepple_simulation" parent="menu_frepple" sequence="1" name="frePPLe Simulations"/>
+    </data>
+</tryton>

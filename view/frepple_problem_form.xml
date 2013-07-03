@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--The COPYRIGHT file at the top level of this repository
+contains the full copyright notices and license terms. -->
+<form string="FrePPLe Problem">
+	<label name="simulation"/>
+	<field name="simulation" colspan="3"/>
+	<label name="entity"/>
+	<field name="entity"/>
+	<label name="name"/>
+	<field name="name"/>
+	<label name="description"/>
+	<field name="description" colspan="3"/>
+	<label name="start"/>
+	<field name="start"/>
+	<label name="end"/>
+	<field name="end"/>
+	<label name="weight"/>
+	<field name="weight"/>
+</form>

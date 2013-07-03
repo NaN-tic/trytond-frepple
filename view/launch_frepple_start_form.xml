@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--The COPYRIGHT file at the top level of this repository
+contains the full copyright notices and license terms. -->
+<form string="Launch frePPLe" col="2">
+	<label name="plan"/>
+	<field name="plan"/>
+	<label name="capacity"/>
+	<field name="capacity"/>
+	<label name="material"/>
+	<field name="material"/>
+	<label name="lead_time"/>
+	<field name="lead_time"/>
+	<label name="release_fence"/>
+	<field name="release_fence"/>
+</form>

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=.
+export PYTHONPATH=~/d/hg/nan-tryton/proteus:~/d/hg/nan-tryton/trytond
+
+./frepple frepple-tryton.py

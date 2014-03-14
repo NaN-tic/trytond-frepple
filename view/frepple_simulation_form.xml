@@ -6,4 +6,5 @@ contains the full copyright notices and license terms. -->
 	<field name="name"/>
 	<label name="date"/>
 	<field name="date"/>
+    <field name="problems" colspan="4"/>
 </form>

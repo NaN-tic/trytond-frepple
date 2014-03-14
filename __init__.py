@@ -2,13 +2,16 @@
 #copyright notices and license terms.
 from trytond.pool import Pool
 from .frepple import *
+from .configuration import *
 
 def register():
     Pool.register(
         Simulation,
         Problem,
-	LaunchFrePPLeStart,
+        LaunchFrePPLeStart,
+        Product,
+        Configuration,
         module='frepple', type_='model')
     Pool.register(
-	LaunchFrePPLe,
+        LaunchFrePPLe,
         module='frepple', type_='wizard')

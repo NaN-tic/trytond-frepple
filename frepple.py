@@ -1,13 +1,17 @@
 #The COPYRIGHT file at the top level of this repository contains the full
 #copyright notices and license terms.
+import os
+import json
 import subprocess
 from trytond.model import ModelView, ModelSQL, fields
 from trytond.wizard import Wizard, StateAction, StateView, StateTransition, \
     Button
 from trytond.pool import Pool
 from trytond.rpc import RPC
+from trytond.transaction import Transaction
 
-__all__ = ['Simulation', 'Problem', 'LaunchFrePPLeStart', 'LaunchFrePPLe']
+__all__ = ['Simulation', 'Problem', 'LaunchFrePPLeStart', 'LaunchFrePPLe',
+    'Product']
 
 
 def check_output(*args):
@@ -18,29 +22,46 @@ def check_output(*args):
     return data
 
 
-def execute_frepple():
-    import os
-    cwd = os.getcwd()
-    os.chdir('/home/albert/tmp/frepple-2.0/bin')
-    print check_output('./run')
-
-
 class Simulation(ModelSQL, ModelView):
     'frePPLe Simulation'
     __name__ = 'frepple.simulation'
     name = fields.Char('Name', required=True)
     date = fields.DateTime('Date', required=True)
+    problems = fields.One2Many('frepple.problem', 'simulation', 'Problems')
 
     @classmethod
     def __setup__(cls):
         super(Simulation, cls).__setup__()
+        cls._order.insert(0, ('date', 'DESC'))
+        cls._error_messages.update({
+                'missing_configuration_path': ('frePPLe path must be '
+                    'configured before executing the planner.'),
+                })
         cls.__rpc__.update({
                 'execute': RPC(readonly=False),
                 })
 
     @classmethod
-    def process(cls, simulations):
-        execute_frepple()
+    def execute_frepple(cls, params):
+        Configuration = Pool().get('frepple.configuration')
+        config = Configuration.get_singleton()
+        if not config or not config.path:
+            cls.raise_user_error('missing_configuration_path')
+        cwd = os.getcwd()
+        script_path = os.path.abspath(__file__)
+        script_path = os.path.dirname(script_path)
+        script_path = os.path.join(script_path, 'frepple-tryton.py')
+        ppath = os.environ.get('PYTHONPATH')
+        os.environ['PYTHONPATH'] = (
+            os.path.join(config.path, '../contrib/django') + (':' + ppath
+                if ppath else ''))
+        ld = os.environ.get('LD_LIBRARY_PATH')
+        os.environ['LD_LIBRARY_PATH'] = '.' + (':' + ld if ld else '')
+        params['database'] = Transaction().cursor.database_name
+        os.environ['FREPPLE_TRYTON_PARAM'] = json.dumps(params)
+        os.chdir(config.path)
+        print check_output('./frepple', script_path)
+        os.chdir(cwd)
 
 
 class Problem(ModelSQL, ModelView):
@@ -104,5 +125,23 @@ class LaunchFrePPLe(Wizard):
     launch = StateAction('frepple.act_frepple_simulation')
 
     def do_launch(self, action):
-        execute_frepple()
+        params = {
+            'plan': self.start.plan,
+            'capacity': self.start.capacity,
+            'material': self.start.material,
+            'lead_time': self.start.lead_time,
+            'release_fence': self.start.release_fence,
+            }
+        Pool().get('frepple.simulation').execute_frepple(params)
         return action, {}
+
+
+class Product(ModelSQL, ModelView):
+    __name__ = 'product.product'
+
+    @classmethod
+    def __setup__(cls):
+        super(Product, cls).__setup__()
+        cls.__rpc__.update({
+                'products_by_location': RPC(),
+                })

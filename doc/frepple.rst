@@ -15,8 +15,8 @@ Using unstable release or from git repository
 
 $ sudo apt-get install libtool automake autoconf
 $ sudo pip install django
-$ tar xvf frepple.tgz
-$ cd frepple
+$ git push git@github.com:albertca/frePPLe.git
+$ cd frePPLe
 $ cp /usr/share/libtool/config/ltmain.sh .
 $ automake --add-misssing
 $ autoreconf

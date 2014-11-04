@@ -7,23 +7,17 @@ from trytond.tests.test_tryton import test_view, test_depends
 
 
 class FrePPLeTestCase(unittest.TestCase):
-    '''
-    Test frepple module.
-    '''
+    'Test frepple module'
 
     def setUp(self):
         trytond.tests.test_tryton.install_module('frepple')
 
     def test0005views(self):
-        '''
-        Test views.
-        '''
+        'Test views'
         test_view('frepple')
 
     def test0006depends(self):
-        '''
-        Test depends.
-        '''
+        'Test depends'
         test_depends()
 
 
